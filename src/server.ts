@@ -4,7 +4,7 @@ import Fastify, { FastifyRequest } from 'fastify'
 
 
 const fastify = Fastify({
-    logger: true
+    logger:true
 })
 
 fastify.get('/emprestimos', async (request, reply) => {
@@ -24,5 +24,5 @@ fastify.get('/emprestimo/:id', async (request:FastifyRequest<{ Params: { id: str
 })
 
 fastify.listen({
-    port: 3333
+    port: 3000
 })
