@@ -32,9 +32,9 @@ model tabela_teste {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model emprestimos {
-  id_emprestimo     BigInt    @id @unique @default(autoincrement())
-  id_exemplar       BigInt?
-  id_livro          BigInt?
+  id_emprestimo     Int       @id @unique @default(autoincrement())
+  id_exemplar       Int?
+  id_livro          Int?
   id_usuario        String?   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   realizado_em      DateTime  @default(now()) @db.Timestamptz(6)
   data_realizado_em DateTime? @default(dbgenerated("(now())::date")) @db.Date

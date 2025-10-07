@@ -1,8 +1,7 @@
-import { prisma } from './repository/repository'
-import { Prisma } from './repository/repository'
-import Fastify from 'fastify'
+import prisma from './repository/repository'
 
-type emprestimos = Prisma.emprestimos.schema
+import Fastify, { FastifyRequest } from 'fastify'
+
 
 const fastify = Fastify({
     logger: true
@@ -13,22 +12,20 @@ async function todosUsuarios(){
     return dados
 }
 
-async function all_emprestimos(){
-    const data = await prisma.emprestimos.findMany()
-    console.log(data)
-    return data
-}
+fastify.get('/emprestimos', async (request, reply) => {
+    const dados = await prisma.emprestimos.findMany()
+    reply.status(200).send(dados)
+})
 
-fastify.get('/all_emprestimos', async (request, reply) => {
-    const dados = await all_emprestimos()
-    const devolveDados = dados.map((item:emprestimos) => {
-        const retorno = {...item,
-        id_emprestimo: item.id_emprestimo.toString(),
-        id_exemplar: item.id_exemplar?.toString(),
-        id_livro: item.id_livro?.toString()}
-        return retorno
+fastify.get('/emprestimo/:id', async (request:FastifyRequest<{ Params: { id: string } }>, reply) => {
+    const params = request.params
+    const id = Number(params.id)
+    const dados = await prisma.emprestimos.findUnique({
+        where: {
+            id_emprestimo: id
+        }
     })
-    reply.status(200).send({ dados })
+    reply.status(200).send(dados)
 })
 
 fastify.listen({
