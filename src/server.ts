@@ -7,11 +7,6 @@ const fastify = Fastify({
     logger: true
 })
 
-async function todosUsuarios(){
-    const dados = await prisma.tabela_teste.findMany()
-    return dados
-}
-
 fastify.get('/emprestimos', async (request, reply) => {
     const dados = await prisma.emprestimos.findMany()
     reply.status(200).send(dados)
