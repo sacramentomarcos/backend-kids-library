@@ -3,10 +3,14 @@ import { Emprestimo } from "../entities/emprestimo.entity"
 
 export class EmprestimoRepository {
     async criarEmprestimo(dados:Emprestimo){
-        return await prisma.emprestimos.create({
-            data: {
-                
+        const emprestimoPrisma = {
+                id_exemplar: dados.id_exemplar,
+                id_livro: dados.id_livro,
+                id_usuario: dados.id_usuario
             }
+
+        return await prisma.emprestimos.create({
+            data: emprestimoPrisma
         })
     }
 

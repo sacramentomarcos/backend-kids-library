@@ -13,11 +13,7 @@ const fastify = Fastify({
 // C
 fastify.post('/emprestimos', async (request:FastifyRequest<{Body: EmprestimoDTO}>, reply) =>{
 
-    const criaEmprestimo:Emprestimo = await prisma.emprestimos.create({
-        data: {
-
-        }
-    })
+    const criaEmprestimo = await prisma.emprestimos
 
     reply.status(200).send()
 })
