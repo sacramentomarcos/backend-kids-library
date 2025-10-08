@@ -7,6 +7,6 @@
     "forceConsistentCasingInFileNames": true, // Prevent file name casing issues
     "skipLibCheck": true         // Skip type checking of declaration files for faster builds
   },
-  "include": ["src"],           // Include all files in the src folder
+  "include": ["src", "src/generated/prisma"],           // Include all files in the src folder
   "exclude": ["node_modules"]   // Exclude dependencies
 }
