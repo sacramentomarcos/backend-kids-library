@@ -38,7 +38,7 @@ model emprestimos {
   id_usuario        String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   realizado_em      DateTime @default(now()) @db.Timestamptz(6)
   data_realizado_em DateTime @default(dbgenerated("(now())::date")) @db.Date
-  data_devolucao_em DateTime @default(dbgenerated("(now() + '7 days'::interval)")) @db.Date
+  data_devolucao_em DateTime @db.Date
   status            Boolean  @default(true)
 }
 

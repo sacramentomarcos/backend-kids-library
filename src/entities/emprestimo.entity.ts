@@ -1,10 +1,10 @@
-export type Emprestimo = {
-    id_emprestimo: number
-    id_exemplar: number
-    id_livro: number
-    id_usuario: string
-    realizado_em: Date
-    data_realizado_em: Date
-    data_devolucao_em: Date
-    status: boolean
+export type EmprestimoEntity = {
+    idEmprestimo: number
+    idExemplar: number
+    idLivro: number
+    idUsuario: string
+    realizadoEm?: Date
+    dataRealizadoEm?: Date
+    dataDevolucaoEm: Date
+    status?: boolean
 }
