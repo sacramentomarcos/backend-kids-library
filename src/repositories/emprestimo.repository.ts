@@ -1,19 +1,12 @@
 import prisma from "../lib/repository"
 
-import { EmprestimoEntity } from "../entities/emprestimo.entity"
 
 export class EmprestimoRepository {
-    async criar(dados:EmprestimoEntity){
-        const emprestimoPrisma = {
-                id_exemplar: dados.idExemplar,
-                id_livro: dados.idLivro,
-                id_usuario: dados.idUsuario,
-                data_devolucao_em: dados.dataDevolucaoEm
-            }
-
+    async criar(dadosEmprestimo){
         return await prisma.emprestimos.create({
-            data: emprestimoPrisma
+            data: {...dadosEmprestimo}
         })
+
     }
 
     async deletar(idEmprestimo:number){
@@ -24,12 +17,13 @@ export class EmprestimoRepository {
         })
     }
 
+    // Essa função posteriormente vai para um LivrosRepository
     async statusLivro(idLivro:number){
         const livro = await prisma.emprestimos.findFirst({
             where: {
                 AND: [
-                {id_livro: idLivro},
-                {status: true}
+                { id_livro: idLivro,
+                status: true }
             ]
             }
         })

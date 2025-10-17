@@ -8,22 +8,29 @@ export class EmprestimoService {
         this.repository = new EmprestimoRepository
     }
 
-    async livroEmprestado({ idLivro } : EmprestimoEntity){
-        console.log(idLivro)
-        const emprestado = await this.repository.statusLivro(idLivro)
-        return emprestado
+    async livroEmprestado({ idExemplar } : EmprestimoEntity){
+        console.log(idExemplar)
+        const status = await this.repository.statusLivro(idExemplar)
+        return status
     }
 
-    async criaEmprestimo(emprestimo:EmprestimoEntity){
-        if (await this.livroEmprestado(emprestimo)) throw new Error('livro já emprestado');
-
-        const emprestimoCriado = await this.repository.criar(emprestimo);
-        const hoje = new Date()
-        const timestampDevolucao = hoje.setDate(hoje.getDate() + 7).toString()
+    async criaEmprestimo(emprestimo:EmprestimoEntity) {
         
-        const diaDevolucaoPadrao = new Date(timestampDevolucao)
+        if (await this.livroEmprestado(emprestimo)) throw new Error('livro já emprestado');
+        const hoje = new Date()
+        const diaDevolucaoPadrao = new Date(hoje)
+        diaDevolucaoPadrao.setDate(hoje.getDate() + 7)
+        console.log(diaDevolucaoPadrao)
+
+        const emprestimoPrisma = {
+                id_exemplar: emprestimo.idExemplar,
+                id_usuario: emprestimo.idUsuario,
+                data_devolucao_em: diaDevolucaoPadrao,
+                id_livro: 3
+            }
+
+        const emprestimoCriado = await this.repository.criar(emprestimoPrisma);
 
         return emprestimoCriado
     }
-
 }

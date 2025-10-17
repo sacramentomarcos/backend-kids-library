@@ -1,7 +1,7 @@
 export type EmprestimoEntity = {
-    idEmprestimo: number
+    idEmprestimo?: number
     idExemplar: number
-    idLivro: number
+    idLivro?: number
     idUsuario: string
     realizadoEm?: Date
     dataRealizadoEm?: Date
