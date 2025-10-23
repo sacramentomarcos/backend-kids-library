@@ -32,12 +32,18 @@ export class EmprestimoService {
                 ...dados,
                 dataDevolucaoEm: diaDevolucaoPadrao,
                 idLivro: 3
-            }
+            };
 
         if (await this.livroEmprestado(emprestimo.idExemplar)) throw new Error('livro já emprestado');
 
         const emprestimoCriado = await this.emprestimoRepo.criar(emprestimo);
 
-        return emprestimoCriado
+        return emprestimoCriado;
+    }
+
+    async proximoIdEmprestimo(){
+        const dados = await this.emprestimoRepo.ultimoIdEmprestimo()
+        if (!dados) throw Error('último ID não encontrado')
+        return dados.id_emprestimo + 1
     }
 }

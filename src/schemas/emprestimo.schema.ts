@@ -4,8 +4,8 @@ export const emprestimoSchema = {
     body: {
         type: 'object',
         properties: {
-            id_usuario: {type: 'string'},
-            id_exemplar: {type: 'number'},
+            codigo_familia: {type: 'string'},
+            id_livro: {type: 'number'},
         },
         required: ['id_usuario', 'id_exemplar'],
         additionalProperties: false

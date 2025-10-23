@@ -6,18 +6,34 @@ import { emprestimoSchema } from "../schemas/emprestimo.schema";
 export class EmprestimoController {
     private service: EmprestimoService;
 
-    constructor(){
+    constructor() {
         this.service = new EmprestimoService();
     }
 
-    async criar(request:FastifyRequest, reply:FastifyReply){
+    // async create(request:FastifyRequest, reply:FastifyReply){
+    //     try {
+    //         const body = request.body as {idUsuario:string, idExemplar:number}
+    //         const resultado = await this.service.criaEmprestimo(body)
+    //         return reply.code(201).send(resultado)
+    //     } catch (e:any) {
+    //         console.error(e)
+    //         reply.code(400).send({message:e.message})
+    //     }
+    // }
+    
+    // async buscaPorId(request:FastifyRequest<{Params: {id: string}}>, reply:FastifyReply){
+    //     try {
+    //         const id = request.params.id;
+    //         const dados = await this.service.buscarUsuarioPorId(id)
+    //     }
+    // };
+
+    async buscaProximoIdEmprestimo(request:FastifyRequest, reply:FastifyReply){
         try {
-            const body = request.body as {idUsuario:string, idExemplar:number}
-            const resultado = await this.service.criaEmprestimo(body)
-            return reply.code(201).send(resultado)
-        } catch (e:any) {
+            const id = await this.service.proximoIdEmprestimo();
+            return { id }
+        } catch (e) {
             console.error(e)
-            reply.code(400).send({message:e.message})
         }
     }
 }

@@ -11,16 +11,16 @@ export class EmprestimoRepository {
                 id_usuario: dados.idUsuario,
                 data_devolucao_em: dados.dataDevolucaoEm
             }
-        })
-    }
+        });
+    };
 
     async deletar(idEmprestimo: number){
         return await prisma.emprestimos.delete({
             where: {
                 id_emprestimo: idEmprestimo
             }
-        })
-    }
+        });
+    };
 
     // Essa função posteriormente vai para um LivrosRepository
     async statusLivro(idLivro: number){
@@ -28,10 +28,16 @@ export class EmprestimoRepository {
             where: 
                 { id_livro: idLivro,
                 status: true }
-        })
+        });
 
-        return !!livro
+        return !!livro;
     }
 
-
+    async ultimoIdEmprestimo(){
+        const id_emprestimo = prisma.emprestimos.findFirst({
+            select: {id_emprestimo : true},
+            orderBy: {id_emprestimo: 'desc'},
+        })
+        return id_emprestimo
+    }
 }
