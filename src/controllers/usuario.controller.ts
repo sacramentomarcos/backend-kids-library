@@ -9,7 +9,7 @@ export default class UsuarioController {
 
     async busca(){
         try{
-            const dados = this.usuarioService.buscaTodosUsuarios()
+            const dados = await this.usuarioService.buscaTodosUsuarios()
             return dados
         } catch (e) {
             console.error(e)
