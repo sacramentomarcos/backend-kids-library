@@ -1,5 +1,5 @@
 import Fastify from 'fastify'
-import { emprestimosRotas, usuariosRotas } from './routes/routes'
+import { emprestimosRotas, usuariosRotas, livrosRotas } from './routes/routes'
 import { fastifyCors } from '@fastify/cors'
 
 
@@ -15,12 +15,13 @@ const start = async () => {
   
 await fastify.register(emprestimosRotas);
 await fastify.register(usuariosRotas);
+await fastify.register(livrosRotas);
 
 
 
 fastify.register(fastifyCors, {
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true,
 });
 

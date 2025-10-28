@@ -1,14 +1,12 @@
 import prisma from "../lib/repository"
 
 export default class LivroRepository {
-    async buscarPorId(idLivro: number){
+    async buscarPorISBN(isbn: string){
         const livro = await prisma.livros.findFirst({
             where: {
-                id_livro: idLivro
+                isbn
             }
         })
     return livro
     }
-
-    
 }
