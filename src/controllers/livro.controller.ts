@@ -8,10 +8,11 @@ export default class LivroController {
         this.livroService = new LivroService
     }
 
-    async buscarDadosLivro(request:FastifyRequest, reply: FastifyReply) {
+    async buscarDadosLivro(request:FastifyRequest<{Params:{isbn:string}}>, reply: FastifyReply) {
         try {
-            const { isbn } = request.params as {isbn?: string}
-            if (!isbn) { 
+            const { isbn } = request.params
+            console.log(isbn)
+            if (!isbn) {
                 return reply.status(500).send({message:'[ERRO] - ISBN NÃO RECEBIDO'})
                 }
 
@@ -19,9 +20,8 @@ export default class LivroController {
             return dadosLivro
         } catch (e) {
             console.error('[ERRO] - ', e)
+            return reply.status(500).send({message:'[ERRO] - ',e})
         }
     }
-
-
 
 }

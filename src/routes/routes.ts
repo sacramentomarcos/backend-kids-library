@@ -27,7 +27,6 @@ export async function emprestimosRotas(app: FastifyInstance) {
     // app.get('/emprestimos', (req, reply)=>{
     //     reply.send({message:'laele bora bill'})
     // })
-    
 }
 
 export async function usuariosRotas(app: FastifyInstance) {
@@ -37,17 +36,5 @@ export async function usuariosRotas(app: FastifyInstance) {
 
 export async function livrosRotas(app:FastifyInstance){
     const livroController = new LivroController();
-    app.get('/livros/:isbn',
-        {
-            schema: {
-                params: {
-                    type: 'object',
-                    properties: {
-                        isbn: {type: 'string'}
-                    },
-                required: ['isbn']
-                }
-            }
-        }, (request:FastifyRequest, reply: FastifyReply)=>
-        livroController.buscarDadosLivro.bind(livroController))
+    app.get('/livros/:isbn', livroController.buscarDadosLivro.bind(livroController))
 }

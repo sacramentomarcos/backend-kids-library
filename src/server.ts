@@ -19,10 +19,11 @@ await fastify.register(livrosRotas);
 
 
 
-fastify.register(fastifyCors, {
-  origin: 'http://localhost:5173',
+await fastify.register(fastifyCors, {
+  origin: ['http://localhost:5173'],
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true,
+  
 });
 
 fastify.listen({ port: 3000 }, () => {
