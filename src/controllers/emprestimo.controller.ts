@@ -28,6 +28,13 @@ export class EmprestimoController {
     //     }
     // };
 
+    async cria(request:FastifyRequest, reply: FastifyReply) {
+        try {
+            const body = request.body
+            
+        }
+    }
+
     async buscaProximoIdEmprestimo(request:FastifyRequest, reply:FastifyReply){
         try {
             const id = await this.service.proximoIdEmprestimo();

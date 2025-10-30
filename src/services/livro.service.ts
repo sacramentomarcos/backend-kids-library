@@ -11,9 +11,13 @@ export default class LivroService {
     async buscaPorCodigoISBN(codigo: string){
         try {
             const livro = await this.livroRepo.buscarPorISBN(codigo)
-            return livro
+            const livroTratado = {
+                ...livro,
+                id_livro: Number(livro?.id_livro)
+            }
+            return livroTratado
         } catch (e) {
-            console.error('[ERRO] - ',e)
+            console.error('[ERRO] - ', e)
         }
         
     }

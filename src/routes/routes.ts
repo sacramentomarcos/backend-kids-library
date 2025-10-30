@@ -9,20 +9,7 @@ import LivroController from "../controllers/livro.controller";
 
 export async function emprestimosRotas(app: FastifyInstance) {
     const emprestimoController = new EmprestimoController();
-
-    // app.post('/emprestimos',
-    //     {
-    //         preHandler: (request, reply, done) => {
-    //         console.log('🔍 Body recebido:', request.body);
-    //         if (request.body) {
-    //             request.body = snakeToCamelCase(request.body); 
-    //         };
-    //         done();
-    //         },
-    //        schema: emprestimoSchema
-    //     },
-    //     emprestimoController.create.bind(emprestimoController))
-
+    app.post('/emprestimos/:id_emprestimo', emprestimoController.)
     app.get('/emprestimos/atual', emprestimoController.buscaProximoIdEmprestimo.bind(emprestimoController))
     // app.get('/emprestimos', (req, reply)=>{
     //     reply.send({message:'laele bora bill'})
