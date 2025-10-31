@@ -1,13 +1,8 @@
-// type UUID = string & { readonly __uuid: unique symbol };
+import { z } from 'zod';
 
-export const emprestimoSchema = {
-    body: {
-        type: 'object',
-        properties: {
-            codigo_familia: {type: 'string'},
-            id_livro: {type: 'number'},
-        },
-        required: ['id_usuario', 'id_exemplar'],
-        additionalProperties: false
-    }
-}
+export const EmprestimoSchema = z.object({
+    idEmprestimo: z.number(),
+    idExemplar: z.number(),
+    idUsuario: z.uuidv4(),
+    
+})

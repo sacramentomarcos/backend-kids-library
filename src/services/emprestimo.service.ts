@@ -20,12 +20,13 @@ export class EmprestimoService {
         return status
     }
 
-    async criaEmprestimo(dados: {id_usu}) {
+    async criaEmprestimo(body:any) {
+
+        const emprestimo:EmprestimoEntity = {...body}
         
+        console.log(emprestimo)
 
-        const emprestimo = 
-
-        if (await this.livroEmprestado(emprestimo.idExemplar)) throw new Error('livro já emprestado');
+        // if (await this.livroEmprestado(emprestimo.idExemplar)) throw new Error('livro já emprestado');
 
         const emprestimoCriado = await this.emprestimoRepo.criar(emprestimo);
 

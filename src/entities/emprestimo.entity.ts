@@ -8,3 +8,4 @@ export type EmprestimoEntity = {
     dataDevolucaoEm: Date
     status?: boolean
 }
+

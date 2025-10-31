@@ -1,7 +1,6 @@
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
 import { EmprestimoService } from "../services/emprestimo.service";
 import { EmprestimoEntity } from "../entities/emprestimo.entity";
-import { emprestimoSchema } from "../schemas/emprestimo.schema";
 
 export class EmprestimoController {
     private service: EmprestimoService;
@@ -30,12 +29,15 @@ export class EmprestimoController {
 
     async cria(request:FastifyRequest, reply: FastifyReply) {
         try {
-            const body = request.body
-            
+            const novoEmprestimo = this.service.criaEmprestimo(request.body)
+            return reply.status(200).send(novoEmprestimo)
+        } catch (e) {
+            console.error('[ERRO] - ', e)
+            return reply.status(500).send({erro: e})
         }
     }
 
-    async buscaProximoIdEmprestimo(request:FastifyRequest, reply:FastifyReply){
+    async buscaProximoIdEmprestimo(request:FastifyRequest, reply:FastifyReply) {
         try {
             const id = await this.service.proximoIdEmprestimo();
             return { id }
