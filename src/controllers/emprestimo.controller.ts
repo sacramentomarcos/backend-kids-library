@@ -1,6 +1,5 @@
 import fastify, { FastifyRequest, FastifyReply } from "fastify";
 import { EmprestimoService } from "../services/emprestimo.service";
-import { EmprestimoEntity } from "../entities/emprestimo.entity";
 
 export class EmprestimoController {
     private service: EmprestimoService;

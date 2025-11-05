@@ -11,41 +11,32 @@ datasource db {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model livros {
-  id_livro       BigInt    @id @unique @default(autoincrement()) @map("idLivro")
+  id_livro       BigInt    @id @unique @default(autoincrement())
   titulo         String
   subtitulo      String?
   autor          String
-  ano_publicacao Int?      @db.SmallInt @map("anoPublicacao")
+  ano_publicacao Int?      @db.SmallInt
   isbn           String    @db.VarChar
   descricao      String?
-  criado_em      DateTime? @db.Timestamptz(6) @map("criadoEm")
+  criado_em      DateTime? @db.Timestamptz(6)
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model emprestimos {
-  id_emprestimo              Int       @id @unique @default(autoincrement()) @map("idEmprestimo")
-  id_exemplar                Int?       @map("idExemplar")
-  id_livro                   Int          @map("idlivro")
-  id_usuario                 String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid @map("idUsuario")
-  realizado_em               DateTime  @default(now()) @db.Timestamptz(6) @map("realizadoEm")
-  data_realizado_em          DateTime  @default(dbgenerated("(now())::date")) @db.Date @map("dataRealizadaEm")
-  data_previsao_devolucao_em DateTime  @db.Date  @map("dataPrevisaoDevolucaoEm")
+  id_emprestimo              Int       @id @unique @default(autoincrement())
+  id_livro                   Int
+  id_usuario                 String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  realizado_em               DateTime  @default(now()) @db.Timestamptz(6)
+  data_realizado_em          DateTime  @default(dbgenerated("(now())::date")) @db.Date
+  data_previsao_devolucao_em DateTime  @db.Date
   status                     Boolean   @default(true)
-  data_devolucao_em          DateTime? @db.Date @map("dataDevolucaoEm")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model exemplares {
-  id_exemplar BigInt   @id @default(autoincrement()) @map("idExemplar")
-  id_livro    BigInt? @map("idLivro")
-  created_at  DateTime @default(now()) @db.Timestamptz(6) @map("criadoEm")
-  descricao   String?
+  data_devolucao_em          DateTime? @db.Date
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model usuarios {
   id_usuario     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  codigo_familia String @map("codigoFamilia")
-  nome_completo  String @map("nomeCompleto")
-  created_at     DateTime @default(now()) @db.Timestamptz(6) @map("criadoEm") 
+  codigo_familia String
+  nome_completo  String
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
 }

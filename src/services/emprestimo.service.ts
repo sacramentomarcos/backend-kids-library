@@ -1,7 +1,7 @@
 import { EmprestimoRepository } from "../repositories/emprestimo.repository";
-import { EmprestimoEntity } from "../entities/emprestimo.entity";
 import LivroRepository from "../repositories/livro.repository";
 import UsuarioRepository from "../repositories/usuario.repository";
+import dayjs from "dayjs";
 
 export class EmprestimoService {
     private emprestimoRepo: EmprestimoRepository;
@@ -22,9 +22,9 @@ export class EmprestimoService {
 
     async criaEmprestimo(body:any) {
 
-        const emprestimo:EmprestimoEntity = {...body}
-        
-        console.log(emprestimo)
+        const emprestimo = {
+            ...body,
+        };
 
         // if (await this.livroEmprestado(emprestimo.idExemplar)) throw new Error('livro já emprestado');
 
@@ -34,8 +34,8 @@ export class EmprestimoService {
     }
 
     async proximoIdEmprestimo(){
-        const dados = await this.emprestimoRepo.ultimoIdEmprestimo()
-        if (!dados) throw Error('último ID não encontrado')
-        return dados.id_emprestimo + 1
+        const dados = await this.emprestimoRepo.ultimoIdEmprestimo();
+        if (!dados) throw Error('último ID não encontrado');
+        return dados.id_emprestimo + 1;
     }
 }

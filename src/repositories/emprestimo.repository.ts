@@ -1,17 +1,18 @@
-import { EmprestimoEntity } from '../entities/emprestimo.entity'
+import dayjs from 'dayjs';
 import prisma from '../lib/repository'
 
 
 export class EmprestimoRepository {
-    async criar(dados:EmprestimoEntity){
-        return await prisma.emprestimos.create({
+    async criar(dados:{id_livro:number, id_usuario:string, data_previsao_devolucao_em:Date, data_realizado_em:Date}){
+        try {const emprestimo = await prisma.emprestimos.create({
             data: {
-                id_exemplar: dados.idExemplar,
-                id_livro: dados.idLivro,
-                id_usuario: dados.idUsuario,
-                data_devolucao_em: dados.dataDevolucaoEm
+                ...dados
             }
-        });
+        })
+        return emprestimo;
+    } catch (e) {
+        console.error('[ERRO] - ',e)
+    }
     };
 
     async deletar(idEmprestimo: number){

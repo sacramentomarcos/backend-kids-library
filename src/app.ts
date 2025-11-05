@@ -14,18 +14,18 @@ const app = Fastify({
   }
 });
 
-app.addHook('onRequest', (request, reply, payload, done) => {
-  if (payload && typeof payload === 'string') {
-    try {
-      const jsonPayLoad = JSON.parse(payload);
-      const camelCasePayload = humps.camelize(jsonPayLoad)
-      done(null, JSON.stringify(camelCasePayload))
-    } catch (e) {
-      done(null, payload);
-      return;
-    }
-  }
-})
+// app.addHook('onRequest', (request, reply, payload, done) => {
+//   if (payload && typeof payload === 'string') {
+//     try {
+//       const jsonPayLoad = JSON.parse(payload);
+//       const camelCasePayload = humps.camelize(jsonPayLoad)
+//       done(null, JSON.stringify(camelCasePayload))
+//     } catch (e) {
+//       done(null, payload);
+//       return;
+//     }
+//   }
+// })
 
 app.register(fastifyCors, {
   origin: ['http://localhost:5173'],
@@ -33,41 +33,35 @@ app.register(fastifyCors, {
   credentials: true,
 });
 
-app.register(fastifySwagger, {
-  mode: 'dynamic',
-  openapi: {
-    info: {
-      title: 'titulo', 
-      description: '',
-      version: '1.0.0'
-    },
-    servers:[{url: 'http://localhost:3000'}],
-    components: {
-      securitySchemes: {
-        Bearer: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT"
-       }
-      }
-    },
-    security: [{ Bearer: []}]
-  },
-  transform: jsonSchemaTransform
-})
+// app.register(fastifySwagger, {
+//   mode: 'dynamic',
+//   openapi: {
+//     info: {
+//       title: 'titulo', 
+//       description: '',
+//       version: '1.0.0'
+//     },
+//     servers:[{url: 'http://localhost:3000'}],
+//     components: {
+//       securitySchemes: {
+//         Bearer: {
+//           type: "http",
+//           scheme: "bearer",
+//           bearerFormat: "JWT"
+//        }
+//       }
+//     },
+//     security: [{ Bearer: []}]
+//   },
+//   transform: jsonSchemaTransform
+// })
 
-app.register(fastifySwaggerUi, {
-  routePrefix: "/docs"
-})
+// app.register(fastifySwaggerUi, {
+//   routePrefix: "/docs"
+// })
 
 app.register(emprestimosRotas);
 app.register(usuariosRotas);
 app.register(livrosRotas);
-
-
-
-
-
- 
 
 export default app;
