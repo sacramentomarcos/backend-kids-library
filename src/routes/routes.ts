@@ -8,8 +8,11 @@ import z from "zod";
 
 export async function emprestimosRotas(app: FastifyInstance) {
     const emprestimoController = new EmprestimoController();
-    app.post('/emprestimos', emprestimoController.cria.bind(emprestimoController))
     app.get('/emprestimos/atual', emprestimoController.buscaProximoIdEmprestimo.bind(emprestimoController))
+    // app.get('/emprestimos', emprestimoController.busca.bind(emprestimoController))
+    app.post('/emprestimos', emprestimoController.cria.bind(emprestimoController))
+
+    
 
 }
 

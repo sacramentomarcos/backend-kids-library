@@ -3,8 +3,20 @@ import prisma from '../lib/repository'
 
 
 export class EmprestimoRepository {
-    async criar(dados:{id_livro:number, id_usuario:string, data_previsao_devolucao_em:Date, data_realizado_em:Date}){
-        try {const emprestimo = await prisma.emprestimos.create({
+    async buscarTodos() {
+        try {
+            const dados = prisma.emprestimos.findMany()
+            return dados
+        } catch (e) {
+            console.error(e)
+            console.log('erro ao buscar os dados')
+        }
+    }
+
+    async criar(dados:{id_livro:number, id_usuario:string, data_previsao_devolucao_em:Date, data_realizado_em:Date}) {
+
+        try {
+            const emprestimo = await prisma.emprestimos.create({
             data: {
                 ...dados
             }

@@ -5,13 +5,15 @@ import dayjs from "dayjs";
 
 export class EmprestimoService {
     private emprestimoRepo: EmprestimoRepository;
-    private livroRepo: LivroRepository;
-    private usuarioRepo: UsuarioRepository;
+
 
     constructor(){
         this.emprestimoRepo = new EmprestimoRepository;
-        this.livroRepo = new LivroRepository();
-        this.usuarioRepo = new UsuarioRepository();
+    }
+
+    async buscaTodosEmprestimos() {
+        const emprestimos = this.emprestimoRepo.buscarTodos()
+        return emprestimos
     }
 
     async livroEmprestado(idExemplar: number){

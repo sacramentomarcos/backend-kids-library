@@ -26,6 +26,16 @@ export class EmprestimoController {
     //     }
     // };
 
+    async busca(request:FastifyRequest, reply: FastifyReply) {
+        try {
+            const dados = this.service.buscaTodosEmprestimos()
+            return reply.status(200).send(dados)
+        } catch (e) {
+            console.error(e)
+            return reply.status(500).send({message: 'erro no controller'})
+        }
+    }
+
     async cria(request:FastifyRequest, reply: FastifyReply) {
         try {
             const novoEmprestimo = this.service.criaEmprestimo(request.body)
