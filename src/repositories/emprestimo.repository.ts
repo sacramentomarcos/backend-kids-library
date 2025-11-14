@@ -5,7 +5,7 @@ import prisma from '../lib/repository'
 export class EmprestimoRepository {
     async buscarTodos() {
         try {
-            const dados = prisma.emprestimos.findMany()
+            const dados = prisma.vw_emprestimos.findMany()
             return dados
         } catch (e) {
             console.error(e)

@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -39,4 +40,12 @@ model usuarios {
   codigo_familia String
   nome_completo  String
   created_at     DateTime @default(now()) @db.Timestamptz(6)
+}
+
+view vw_emprestimos {
+  idemprestimo    Int?
+  codigofamilia   String?
+  nomecompleto    String?
+  titulo          String?
+  datarealizadoem DateTime? @db.Date
 }
