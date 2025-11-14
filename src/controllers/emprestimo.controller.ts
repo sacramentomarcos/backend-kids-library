@@ -28,7 +28,7 @@ export class EmprestimoController {
 
     async busca(request:FastifyRequest, reply: FastifyReply) {
         try {
-            const dados = this.service.buscaTodosEmprestimos()
+            const dados = await this.service.buscaTodosEmprestimos()
             return reply.status(200).send(dados)
         } catch (e) {
             console.error(e)

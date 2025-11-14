@@ -12,7 +12,7 @@ export class EmprestimoService {
     }
 
     async buscaTodosEmprestimos() {
-        const emprestimos = this.emprestimoRepo.buscarTodos()
+        const emprestimos = await this.emprestimoRepo.buscarTodos()
         return emprestimos
     }
 
