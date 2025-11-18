@@ -43,9 +43,9 @@ model usuarios {
 }
 
 view vw_emprestimos {
-  idemprestimo    Int?
-  codigofamilia   String?
-  nomecompleto    String?
+  idEmprestimo    Int? @map("idemprestimo")
+  codigoFamilia   String? @map("codigofamilia")
+  nomeCompleto    String? @map("nomecompleto")
   titulo          String?
-  datarealizadoem DateTime? @db.Date
+  dataRealizadoEm DateTime? @db.Date @map("datarealizadoem")
 }
