@@ -53,4 +53,17 @@ export class EmprestimoRepository {
         })
         return id_emprestimo
     }
+
+    async mudaStatus(id:number, data:dayjs.Dayjs) {
+        const emprestimoAlterado = prisma.emprestimos.update({
+            where: {
+                id_emprestimo: id
+            },
+            data: {
+                status: false,
+                data_devolucao_em: data.toDate()
+            }
+        })
+        return emprestimoAlterado
+    }
 }

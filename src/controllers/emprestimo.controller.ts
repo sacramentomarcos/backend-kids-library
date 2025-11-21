@@ -54,4 +54,15 @@ export class EmprestimoController {
             console.error(e)
         }
     }
+
+    async alteraEmprestimo(request:FastifyRequest, reply:FastifyReply) {
+        try {
+        const body = request.body
+        console.log(body)
+        this.service.finalizaEmprestimo(body)
+        } catch (e) {
+            console.error('[ERRO] - ', e)
+        }
+    }
+    
 }

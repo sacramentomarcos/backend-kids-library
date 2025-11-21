@@ -28,8 +28,6 @@ export class EmprestimoService {
             ...body,
         };
 
-        // if (await this.livroEmprestado(emprestimo.idExemplar)) throw new Error('livro já emprestado');
-
         const emprestimoCriado = await this.emprestimoRepo.criar(emprestimo);
 
         return emprestimoCriado;
@@ -39,5 +37,16 @@ export class EmprestimoService {
         const dados = await this.emprestimoRepo.ultimoIdEmprestimo();
         if (!dados) throw Error('último ID não encontrado');
         return dados.id_emprestimo + 1;
+    }
+
+    async finalizaEmprestimo(body:any) {
+        const { idEmprestimo, dataDevolucaoEm } = body 
+        try {
+            const dados = await this.emprestimoRepo.mudaStatus(idEmprestimo, dataDevolucaoEm)
+            return dados
+        } catch (e) {
+            console.error('[ERRO] - service-emprestimo')
+        }
+
     }
 }
