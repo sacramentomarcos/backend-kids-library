@@ -11,8 +11,7 @@ export async function emprestimosRotas(app: FastifyInstance) {
     app.get('/emprestimos/atual', emprestimoController.buscaProximoIdEmprestimo.bind(emprestimoController))
     app.get('/emprestimos', emprestimoController.busca.bind(emprestimoController))
     app.post('/emprestimos', emprestimoController.cria.bind(emprestimoController))
-
-    
+    app.post('/emprestimos/status', emprestimoController.alteraEmprestimo.bind(emprestimoController))
 
 }
 
