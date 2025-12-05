@@ -10,7 +10,7 @@ export default class LivroController {
 
     async buscarDadosLivro(request:FastifyRequest, reply: FastifyReply) {
         try {
-            const { isbn } = request.params
+            const { isbn } = request.params as { isbn: string }
             if (!isbn) {
                 return reply.status(500).send({message:'[ERRO] - ISBN NÃO RECEBIDO'})
                 }

@@ -9,4 +9,5 @@
   },
   "include": ["src", "src/generated/prisma"],           // Include all files in the src folder
   "exclude": ["node_modules"]   // Exclude dependencies
+  
 }

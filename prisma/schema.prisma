@@ -1,23 +1,11 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider        = "prisma-client"
   output          = "../src/generated/prisma"
   previewFeatures = ["views"]
 }
 
 datasource db {
-  provider  = "postgresql"
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model livros {
-  id_livro       BigInt    @id @unique @default(autoincrement())
-  titulo         String
-  subtitulo      String?
-  autor          String
-  ano_publicacao Int?      @db.SmallInt
-  isbn           String    @db.VarChar
-  descricao      String?
-  criado_em      DateTime? @db.Timestamptz(6)
+  provider = "postgresql"
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -33,6 +21,18 @@ model emprestimos {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model livros {
+  id_livro       BigInt    @id @unique @default(autoincrement())
+  titulo         String
+  subtitulo      String?
+  autor          String
+  ano_publicacao Int?      @db.SmallInt
+  isbn           String    @db.VarChar
+  descricao      String?
+  criado_em      DateTime? @db.Timestamptz(6)
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model usuarios {
   id_usuario     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   codigo_familia String
@@ -41,9 +41,12 @@ model usuarios {
 }
 
 view vw_emprestimos {
-  idEmprestimo    Int? @map("idemprestimo")
-  codigoFamilia   String? @map("codigofamilia")
-  nomeCompleto    String? @map("nomecompleto")
+  idlivro         Int?
+  idusuario       String?   @db.Uuid
+  idEmprestimo    Int?      @map("idemprestimo")
+  codigoFamilia   String?   @map("codigofamilia")
+  nomeCompleto    String?   @map("nomecompleto")
   titulo          String?
-  dataRealizadoEm DateTime? @db.Date @map("datarealizadoem")
+  dataRealizadoEm DateTime? @map("datarealizadoem") @db.Date
+  status          Boolean?
 }
