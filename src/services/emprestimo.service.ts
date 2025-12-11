@@ -40,12 +40,13 @@ export class EmprestimoService {
     }
 
     async finalizaEmprestimo(body:any) {
-        const { ids } = body
+        const idsEmprestimos = body.emprestimos
+        console.log(idsEmprestimos)
         try {
-            const dados = await this.emprestimoRepo.mudaStatus(ids)
+            const dados = await this.emprestimoRepo.mudaStatus(idsEmprestimos)
             return dados
         } catch (e) {
-            console.error('[ERRO] - service-emprestimo')
+            console.error(e,'[ERRO] - service-emprestimo')
         }
 
     }

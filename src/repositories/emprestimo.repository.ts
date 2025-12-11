@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 import prisma from '../lib/repository'
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export class EmprestimoRepository {
     async buscarTodos() {
@@ -55,7 +59,8 @@ export class EmprestimoRepository {
     }
 
     async mudaStatus(ids:number[]) {
-    const today = dayjs().format('DDMMYYYY')
+    const today = dayjs().tz("America/Sao_Paulo").format()
+    console.log(ids)
         try{
             const emprestimoAlterado = prisma.emprestimos.updateMany({
                 where: {
