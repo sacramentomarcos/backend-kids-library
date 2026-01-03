@@ -32,7 +32,7 @@ export class EmprestimoController {
             return reply.status(200).send(dados)
         } catch (e) {
             console.error(e)
-            return reply.status(500).send({message: 'erro no controller'})
+            return reply.status(500).send({message: e})
         }
     }
 

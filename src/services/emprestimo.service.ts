@@ -12,8 +12,13 @@ export class EmprestimoService {
     }
 
     async buscaTodosEmprestimos() {
-        const emprestimos = await this.emprestimoRepo.buscarTodos()
-        return emprestimos
+        try {
+            const emprestimos = await this.emprestimoRepo.buscarTodos()
+            return emprestimos
+        } catch (e) {
+            console.error(e, 'service_emprestimo')
+            throw e
+        }
     }
 
     async livroEmprestado(idExemplar: number){

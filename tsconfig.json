@@ -5,9 +5,11 @@
     "strict": true,              // Enable all strict type-checking options
     "esModuleInterop": true,     // Allow default imports from CommonJS modules
     "forceConsistentCasingInFileNames": true, // Prevent file name casing issues
-    "skipLibCheck": true         // Skip type checking of declaration files for faster builds
+    "skipLibCheck": true,       // Skip type checking of declaration files for faster builds
+    "outDir": "dist"
   },
   "include": ["src", "src/generated/prisma"],           // Include all files in the src folder
-  "exclude": ["node_modules"]   // Exclude dependencies
+  "exclude": ["node_modules"],
+     // Exclude dependencies
   
 }
