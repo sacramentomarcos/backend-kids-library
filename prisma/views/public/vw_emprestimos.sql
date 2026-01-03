@@ -6,6 +6,7 @@ SELECT
   usu.nome_completo AS nomecompleto,
   liv.titulo,
   emp.data_realizado_em AS datarealizadoem,
+  emp.data_previsao_devolucao_em AS dataprevisaodevolucaoem,
   emp.status
 FROM
   (

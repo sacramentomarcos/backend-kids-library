@@ -41,12 +41,13 @@ model usuarios {
 }
 
 view vw_emprestimos {
-  idlivro         Int?
-  idusuario       String?   @db.Uuid
-  idEmprestimo    Int?      @map("idemprestimo")
-  codigoFamilia   String?   @map("codigofamilia")
-  nomeCompleto    String?   @map("nomecompleto")
-  titulo          String?
-  dataRealizadoEm DateTime? @map("datarealizadoem") @db.Date
-  status          Boolean?
+  idlivro                 Int?
+  idusuario               String?   @db.Uuid
+  idEmprestimo            Int?      @map("idemprestimo")
+  codigoFamilia           String?   @map("codigofamilia")
+  nomeCompleto            String?   @map("nomecompleto")
+  titulo                  String?
+  dataRealizadoEm         DateTime? @map("datarealizadoem") @db.Date
+  dataprevisaodevolucaoem DateTime? @db.Date
+  status                  Boolean?
 }
