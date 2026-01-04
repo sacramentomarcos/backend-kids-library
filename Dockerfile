@@ -31,8 +31,12 @@ ENV NODE_ENV=production
 # Make pnpm available in runner so we can install production deps
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+COPY prisma ./prisma
+
 # Copy compiled files from builder
 COPY --from=builder /app/dist ./dist
+
+RUN pnpx prisma generate
 
 # Copy manifest files and lockfile so production install is deterministic
 COPY package.json pnpm-lock.yaml ./
