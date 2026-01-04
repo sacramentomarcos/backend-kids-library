@@ -18,6 +18,8 @@ COPY prisma ./prisma
 # Install dependencies (including dev) so we can build
 RUN pnpm install --frozen-lockfile
 
+RUN pnpx prisma generate
+
 # Build TypeScript output to /app/dist
 RUN pnpm exec tsc --outDir dist
 
