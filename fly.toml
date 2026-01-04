@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for backend-kids-library on 2026-01-03T21:50:30Z
+# fly.toml app configuration file generated for backend-kids-library-qnaica on 2026-01-04T18:51:53Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'backend-kids-library'
+app = 'backend-kids-library-qnaica'
 primary_region = 'gru'
 
 [build]
