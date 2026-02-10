@@ -1,50 +1,31 @@
-# ======================
-# Builder
-# ======================
-FROM node:20-bookworm-slim AS builder
+# ---------- builder ----------
+FROM node:20-slim AS builder
+
 WORKDIR /app
 
-# 🔑 OpenSSL obrigatório para Prisma
-RUN apt-get update -y \
-  && apt-get install -y openssl \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-COPY package.json pnpm-lock.yaml tsconfig.json ./
-COPY prisma ./prisma
-COPY src ./src
-
-RUN pnpm install --frozen-lockfile
-
-# Prisma client gerado com OpenSSL presente
-RUN pnpx prisma generate
-
-RUN pnpm exec tsc --outDir dist
-
-
-# ======================
-# Runner
-# ======================
-FROM node:20-bookworm-slim AS runner
-WORKDIR /app
-
-ENV NODE_ENV=production
-
-# 🔑 OpenSSL TAMBÉM no runtime
-RUN apt-get update -y \
-  && apt-get install -y openssl \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN apt-get update -y && apt-get install -y openssl
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --prod --frozen-lockfile
+RUN corepack enable && pnpm install
 
+COPY . .
+RUN pnpm prisma generate
+RUN pnpm build
+
+
+# ---------- runner ----------
+FROM node:20-slim AS runner
+
+WORKDIR /app
+
+RUN apt-get update -y && apt-get install -y openssl
+
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY prisma ./prisma
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/src/generated ./src/generated
 
 EXPOSE 3000
 
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/app.js"]
