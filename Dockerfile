@@ -1,45 +1,49 @@
-# =========================
-# Stage 1 — Builder
-# =========================
+# ======================
+# Builder
+# ======================
 FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
-# pnpm via corepack
+# 🔑 OpenSSL obrigatório para Prisma
+RUN apt-get update -y \
+  && apt-get install -y openssl \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copiamos primeiro manifests e prisma (melhor cache)
 COPY package.json pnpm-lock.yaml tsconfig.json ./
 COPY prisma ./prisma
-
-# Dependências (inclui dev, necessário p/ build e prisma)
-RUN pnpm install --frozen-lockfile
-
-# Gera o Prisma Client (NÃO precisa de banco)
-RUN pnpm prisma generate
-
-# Agora o código fonte
 COPY src ./src
 
-# Build TS → dist/
+RUN pnpm install --frozen-lockfile
+
+# Prisma client gerado com OpenSSL presente
+RUN pnpx prisma generate
+
 RUN pnpm exec tsc --outDir dist
 
 
-# =========================
-# Stage 2 — Runner
-# =========================
+# ======================
+# Runner
+# ======================
 FROM node:20-bookworm-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# pnpm também disponível no runtime (Fly usa no release_command)
+# 🔑 OpenSSL TAMBÉM no runtime
+RUN apt-get update -y \
+  && apt-get install -y openssl \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copiamos apenas o que é necessário
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
+
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/prisma ./prisma
-COPY package.json ./
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY prisma ./prisma
 
 EXPOSE 3000
 
