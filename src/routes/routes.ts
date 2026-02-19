@@ -13,6 +13,7 @@ export async function emprestimosRotas(app: FastifyInstance) {
     app.post('/emprestimos', emprestimoController.cria.bind(emprestimoController))
     // app.post('/emprestimos/status', emprestimoController.alteraEmprestimo.bind(emprestimoController))
     app.patch('/devolucoes', emprestimoController.alteraEmprestimo.bind(emprestimoController))
+    app.get('/', () => 'ok')
 }
 
 export async function usuariosRotas(app: FastifyInstance) {
@@ -23,5 +24,4 @@ export async function usuariosRotas(app: FastifyInstance) {
 export async function livrosRotas(app:FastifyInstance) {
     const livroController = new LivroController();
     app.get('/livros/:isbn', livroController.buscarDadosLivro.bind(livroController));
-    
 }

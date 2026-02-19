@@ -9,7 +9,7 @@ dayjs.extend(timezone)
 export class EmprestimoRepository {
     async buscarTodos() {
         try {
-            const dados = prisma.vw_emprestimos.findMany()
+            const dados = await prisma.vw_emprestimos.findMany()
             return dados
         } catch (e) {
             console.error(e)
@@ -51,7 +51,7 @@ export class EmprestimoRepository {
     }
 
     async ultimoIdEmprestimo(){
-        const id_emprestimo = prisma.emprestimos.findFirst({
+        const id_emprestimo = await prisma.emprestimos.findFirst({
             select: {id_emprestimo : true},
             orderBy: {id_emprestimo: 'desc'},
         })

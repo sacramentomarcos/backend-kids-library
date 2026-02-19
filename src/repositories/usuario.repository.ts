@@ -7,7 +7,7 @@ export default class UsuarioRepository {
         const dados = await prisma.usuarios.findMany();
         return dados
         } catch (e) {
-            throw new Error('Erro ao acessar banco de dados')
+            throw new Error(`Erro ao acessar banco de dados -> ${e}`)
         }
     }
 }

@@ -1,47 +1,46 @@
-# Production Dockerfile (multi-stage)
-# Builder: install all deps and compile TypeScript
-# Runner: install only production deps and run the compiled output
-
+# =========================
+# Stage 1 — Builder
+# =========================
 FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
-# Ensure pnpm is available inside the image
+# pnpm via corepack
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copy package files and tsconfig first for better layer caching
+# Copiamos primeiro manifests e prisma (melhor cache)
 COPY package.json pnpm-lock.yaml tsconfig.json ./
-
-# Copy source and prisma schema
-COPY src ./src
 COPY prisma ./prisma
 
-# Install dependencies (including dev) so we can build
+# Dependências (inclui dev, necessário p/ build e prisma)
 RUN pnpm install --frozen-lockfile
 
-# Build TypeScript output to /app/dist
+# Gera o Prisma Client (NÃO precisa de banco)
+RUN pnpm prisma generate
+
+# Agora o código fonte
+COPY src ./src
+
+# Build TS → dist/
 RUN pnpm exec tsc --outDir dist
 
 
+# =========================
+# Stage 2 — Runner
+# =========================
 FROM node:20-bookworm-slim AS runner
 WORKDIR /app
 
-# Runtime environment
 ENV NODE_ENV=production
 
-# Make pnpm available in runner so we can install production deps
+# pnpm também disponível no runtime (Fly usa no release_command)
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copy compiled files from builder
+# Copiamos apenas o que é necessário
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
+COPY package.json ./
 
-# Copy manifest files and lockfile so production install is deterministic
-COPY package.json pnpm-lock.yaml ./
-
-# Install only production dependencies (this will fetch Prisma runtime appropriate for this image)
-RUN pnpm install --prod --frozen-lockfile
-
-# Expose port used by the app
 EXPOSE 3000
 
-# Run the compiled server
 CMD ["node", "dist/server.js"]
